@@ -88,15 +88,20 @@ data EdgeType = Solid | Soft deriving (Eq, Show)
 
 -- | Graph structure contains ids of its root and sink as well as the map of all nodes.
 data SGraph a = SGraph {
+    -- | Returns id of the root..
     rootId :: Vertex,
+    -- | Returns id of the sink.
     sinkId :: Vertex,
     nodes  :: DIMap.IntMap (Node a)
 } deriving (Eq, Show)
 
 -- | Node structure contains the node's id, suf binding (Nothing iff root) and the map of all outgoing edges.
 data Node a = Node {
+    -- | Returns id of the node.
     nodeId :: Vertex,
+    -- | Returns node's suf binding.
     sufId  :: Maybe Vertex,
+    -- | Returns node's outgoing edges.
     edges  :: DMap.Map a Edge
 } deriving (Eq, Show)
 
