@@ -20,7 +20,7 @@ module Data.SubwordGraph (
     , Edge
     , LabeledEdge
     , RootedEdge
-    , EdgeType
+    , EdgeType (Solid, Soft)
     , Node
     , SGraph
 
@@ -88,7 +88,7 @@ data EdgeType = Solid | Soft deriving (Eq, Show)
 
 -- | Graph structure contains ids of its root and sink as well as the map of all nodes.
 data SGraph a = SGraph {
-    -- | Returns id of the root..
+    -- | Returns id of the root.
     rootId :: Vertex,
     -- | Returns id of the sink.
     sinkId :: Vertex,
