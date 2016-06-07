@@ -261,7 +261,7 @@ topsort g = DList.reverse $ toporder g [getRootNode g] [] (countInDegrees g)
 toporder :: SGraph a -> [Node a] -> [Node a] -> DIMap.IntMap Int -> [Node a]
 toporder _ [] acc _ = acc
 toporder g (h:t) acc m = toporder g t' (h:acc) m' where
-    (m', t') = P.foldl f (m, t) (edges h)
+    (m', t') = DMap.foldl f (m, t) (edges h)
     f (m1, t1) (dst, _) = (m2, t2) where
         dg = fromMaybe 0 (DIMap.lookup dst m1)
         t2 = if dg == 1 then getNode dst g : t1 else t1
@@ -272,7 +272,7 @@ countInDegrees :: SGraph a -> DIMap.IntMap Int
 countInDegrees g = P.foldl f initmap nds where
     nds = map snd $ DIMap.toList (nodes g)
     initmap = DIMap.fromList [ (nodeId a, 0) | a <- nds]
-    f acc nd = P.foldl (\a (dst, _) -> DIMap.adjust (1+) dst a) acc (edges nd)
+    f acc nd = DMap.foldl (\a (dst, _) -> DIMap.adjust (1+) dst a) acc (edges nd)
 
 
 -----------------------------------------------------------------------------
@@ -378,7 +378,7 @@ nodesNum = DIMap.size . nodes
 
 -- | Returns number of edges for a given graph.
 edgesNum :: SGraph a -> Int
-edgesNum = P.foldr ((+) . DMap.size . edges) 0 . nodes
+edgesNum = DIMap.foldr ((+) . DMap.size . edges) 0 . nodes
 
 -- | Returns node with a given index. Error when such doesn't exist.
 getNode :: Int -> SGraph a -> Node a
